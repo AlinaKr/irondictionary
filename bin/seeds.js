@@ -35,7 +35,3 @@ Entry.deleteMany()
   console.log(entries.length + ' entries created')
   mongoose.disconnect()
 })
-
-// setTimeout(() => {
-//   mongoose.disconnect()
-// }, 2000)

@@ -9,7 +9,6 @@ router.get('/', (req, res, next) => {
 });
 
 router.get('/dictionary', (req, res, next) => {
-
   Entry.find()
   .then(entries => {
     res.render('dictionary', {
@@ -44,5 +43,32 @@ router.get('/entries/:id/delete', (req, res, next) => {
   })
   .catch(err => next(err))
 });
+
+router.get('/converter', (req, res, next) => {
+  let { originalText } = req.query
+  if (!originalText)
+    res.render('converter')
+  else {
+    Entry.find()
+    .then(entries => {
+      let convertedText = originalText
+
+      for (let i = 0; i < entries.length; i++) {
+        convertedText = convertedText.replace(
+          new RegExp(entries[i].originalWord, "g"), 
+          entries[i].convertedWord
+        )
+        console.log('DEBUG', i);
+        console.log(entries[i].originalWord, entries[i].convertedWord);
+        console.log(convertedText);
+      }
+
+      res.render('converter', {
+        originalText,
+        convertedText
+      })
+    })
+  }
+})
 
 module.exports = router;
